@@ -3,7 +3,7 @@ package Algo_test;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class MonthlyTest_0811 {
+public class MonthlyTest_0811_2v1 {
     public static void main(String[] args) throws FileNotFoundException {
 
         Scanner sc = new Scanner(System.in);
