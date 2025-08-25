@@ -3,7 +3,6 @@ import java.util.Scanner;
 class Solution {
 	static int N,M = 0;
 	static int[] parents;
-	static boolean[] visited;
 	
 	private static void make() {
 		for(int i = 1; i <= N; i++) {
@@ -24,33 +23,29 @@ class Solution {
 	}
 	
 	public static void main(String args[]) throws Exception {
-		Scanner sc = new Scanner(System.in);
-		int T;
-		T=sc.nextInt();
-		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.valueOf(br.readLine());
 		
 		for(int test_case = 1; test_case <= T; test_case++){
-			N = sc.nextInt();
-			M = sc.nextInt();
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			N = Integer.valueOf(st.nextToken());
+			M = Integer.valueOf(st.nextToken());
 			parents = new int[N+1];
-			visited = new boolean[N+1];
 			make();
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("#").append(test_case).append(" ");
 			
 			for(int i = 0; i < M; i++) {
-				int a = sc.nextInt();
-				int b = sc.nextInt();
+				StringTokenizer st1 = new StringTokenizer(br.readLine());
+				int a = Integer.valueOf(st1.nextToken());
+				int b = Integer.valueOf(st1.nextToken());
 				
 				union(a,b);
 			}
 			int cnt = 0;
 			for(int i = 1; i <= N; i++) {
-				int root = find(i);
-				
-				if(!visited[root]) {
-					visited[root] = true;
+				if(parents[i] == i) {
 					cnt++;
 				}
 			}
