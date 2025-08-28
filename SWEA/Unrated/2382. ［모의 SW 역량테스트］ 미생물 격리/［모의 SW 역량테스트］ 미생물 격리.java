@@ -6,7 +6,7 @@ public class Solution {
     static class Data{
         int num, dir, x, y, total;
         boolean isDead;
-        public Data(int x, int y, int num, int dir) {
+        public Data(int y, int x, int num, int dir) {
             this.x = x;
             this.y = y;
             this.total = this.num = num; //생성 시점에는 total과 num이 동일함
@@ -17,8 +17,8 @@ public class Solution {
     static int N,M,K;
     static Data list[];
     static Data arr[][];
-    static int dy[] = {0,0,0,-1,1}; // x상하좌우 순서
-    static int dx[] = {0,-1,1,0,0};
+    static int dx[] = {0,0,0,-1,1}; // x상하좌우 순서
+    static int dy[] = {0,-1,1,0,0};
 
 
     public static void main(String args[]) throws Exception{
@@ -37,11 +37,8 @@ public class Solution {
 
             for(int i = 0; i < K; ++i) {
                 st = new StringTokenizer(br.readLine());
-                int x = Integer.parseInt(st.nextToken());
-                int y = Integer.parseInt(st.nextToken());
-                int num = Integer.parseInt(st.nextToken());
-                int dir = Integer.parseInt(st.nextToken());
-                list[i] = new Data(x,y,num,dir);
+                list[i] = new Data(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()),
+                        Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
             }
             System.out.println("#" + test_case +" "+ move());
 
@@ -50,8 +47,9 @@ public class Solution {
     }
 
     static int move() {
+        int time = M;
         int nx, ny, cnt = 0;
-        for(; M != 0; M--) {
+        while(time--> 0) {
             for(Data a : list) {
                 if(a.isDead) continue;
                 //단순 이동
