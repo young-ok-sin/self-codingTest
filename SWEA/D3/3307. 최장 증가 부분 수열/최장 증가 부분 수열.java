@@ -16,25 +16,46 @@ public class Solution {
 			
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int arr[] = new int[N];
-			int dp[] = new int[N+1];
 			
 			for(int i = 0; i < N; i++) {
 				arr[i] = Integer.parseInt(st.nextToken());
-				dp[i] = 1;
 			}
-			int maxLen = 1;
+			int len = 0;
+			int sort_arr[] = new int[N];
 			
-			for(int i = 1; i < N; i++) {
-				for(int j = 0; j < i ; j++) {
-					if(arr[j] < arr[i])
-						dp[i] = Math.max(dp[i], dp[j] + 1);
+			for(int i = 0; i < N; i++) {
+				int idx = Arrays.binarySearch(sort_arr, 0, len,arr[i]);
+				
+				if(idx < 0) {//음수 값 인덱스로 변환
+					idx = -(idx+ 1) ;
 				}
-				maxLen = Math.max(maxLen, dp[i]);
+				sort_arr[idx] = arr[i];
+				if(idx == len) len++;
 			}
-			System.out.println("#"+ test_case+ " "+maxLen);
+			
+			System.out.println("#"+ test_case+" " + len);
+			
+//			int N = Integer.parseInt(br.readLine());
+//			
+//			StringTokenizer st = new StringTokenizer(br.readLine());
+//			int arr[] = new int[N];
+//			int dp[] = new int[N+1];
+//			
+//			for(int i = 0; i < N; i++) {
+//				arr[i] = Integer.parseInt(st.nextToken());
+//				dp[i] = 1;
+//			}
+//			int maxLen = 1;
+//			
+//			for(int i = 1; i < N; i++) {
+//				for(int j = 0; j < i ; j++) {
+//					if(arr[j] < arr[i])
+//						dp[i] = Math.max(dp[i], dp[j] + 1);
+//				}
+//				maxLen = Math.max(maxLen, dp[i]);
+//			}
 		}
-		
+
 	}
+
 }
-
-
