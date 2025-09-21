@@ -1,52 +1,44 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStreamReader;;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N, M;
-	static int used[], restart[];
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		// 목표 : 합 >= M
-		used = new int[N+1];
-		restart = new int[N+1];
-		
-		st = new StringTokenizer(br.readLine());
-		for(int i = 1; i <= N; i++) {
-			used[i] = Integer.parseInt(st.nextToken());
-		}
-		st = new StringTokenizer(br.readLine());
-		int sum = 0;
-		for(int i = 1; i <= N; i++) {
-			restart[i] = Integer.parseInt(st.nextToken());
-			sum += restart[i];
-		}
-		
-		int[][] results = new int[N+1][sum+1];
-		for(int i = 1; i <= N; i++) {
-			for(int c = 0; c <= sum; c++) {
-				if(c >= restart[i]) { // 비용 여유
-					results[i][c] = Math.max(results[i-1][c], results[i-1][c - restart[i]] + used[i]); //선택 x, 선택 o
-				}
-				else { // 비용 부족
-					results[i][c] = results[i-1][c];
-				}
-			}
-		}
-		
-		int ans = Integer.MAX_VALUE;
-		for(int c = 0; c <= sum; c++) {
-			if(results[N][c] >= M ) {
-				ans = Math.min(ans, c);
-			}
-		}
-		System.out.println(ans);
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
+        int memori[] = new int[N+1];
+        int weight[] = new int[N+1];
+        st = new StringTokenizer(br.readLine());
+        for(int i = 1; i <= N; i++){
+            memori[i] = Integer.parseInt(st.nextToken());
+        }
+        st = new StringTokenizer(br.readLine());
+        int sum = 0;
+        for(int i = 1; i <= N; i++){
+            weight[i] = Integer.parseInt(st.nextToken());
+            sum += weight[i];
+        }
+        int dp[][] = new int[N+1][sum+1];
+        for(int i = 1; i <= N; i++){
+            for(int j = 0; j <= sum; j++){
+                if(j >= weight[i]){
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j - weight[i]] + memori[i]);
+                }
+                else dp[i][j] = dp[i-1][j];
+            }
+        }
+
+        int result = Integer.MAX_VALUE;
+        for(int j = 0; j <= sum; j++){
+            if(dp[N][j] >= M)   {
+                result = Math.min(result,j);
+            }
+        }
+        System.out.println(result);
+    }
 }
