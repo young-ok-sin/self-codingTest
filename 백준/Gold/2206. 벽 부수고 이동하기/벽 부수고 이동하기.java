@@ -6,14 +6,14 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N,M,map[][];
-    static int dc[] = {0,0,-1,1};
-    static int dr[] = {-1,1,0,0};
+    static int N, M;
+    static int dx[] = {-1,1,0,0}, dy[] = {0,0,-1,1};
+    static int arr[][];
     static class Node{
-        int r, c, broken, dist;
-        Node(int r, int c, int broken, int dist){
-            this.r = r;
-            this.c = c;
+        int x, y, broken,dist;
+        Node(int x, int y, int broken, int dist){
+            this.x = x;
+            this.y = y;
             this.broken = broken;
             this.dist = dist;
         }
@@ -24,45 +24,42 @@ public class Main {
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        map = new int[N][M];
+        arr = new int[N][M];
 
         for(int i = 0; i < N; i++){
             String line = br.readLine();
             for(int j = 0; j < M; j++){
-                map[i][j] = line.charAt(j) - '0';
+                arr[i][j] = line.charAt(j) - '0';
             }
         }
         System.out.println(bfs());
     }
     static int bfs(){
-        Queue<Node> q = new ArrayDeque<>();
-        boolean[][][] visited = new boolean[N][M][2];
-        q.add(new Node(0,0,0,1));
+        Queue<Node> q = new ArrayDeque();
+        boolean visited[][][] = new boolean[N][M][2];
+        q.offer(new Node(0,0,0,1));
         visited[0][0][0] = true;
 
-        while(!q.isEmpty()){
-            Node cur = q.poll();
+        while (!q.isEmpty()){
+            Node n = q.poll();
 
-            if(cur.r == N-1 && cur.c == M-1)    return cur.dist;
+            if(n.x == N-1 && n.y == M-1)    return n.dist;
 
-            for(int i = 0; i < 4; i++){
-                int nr = cur.r + dr[i];
-                int nc = cur.c + dc[i];
+            for(int d = 0; d < 4; d++){
+                int nx = n.x + dx[d];
+                int ny = n.y + dy[d];
+                if(nx < 0 || ny < 0 || ny >= M || nx >= N) continue;
 
-                if(nr < 0 || nc < 0 || nc >= M || nr >= N) continue;
-                // 다음 칸이 빈칸
-                if(map[nr][nc] == 0 && !visited[nr][nc][cur.broken]){
-                    visited[nr][nc][cur.broken] = true;
-                    q.add(new Node(nr,nc,cur.broken,cur.dist + 1));
+                if(arr[nx][ny] == 0 && !visited[nx][ny][n.broken]){
+                    visited[nx][ny][n.broken] = true;
+                    q.offer(new Node(nx,ny,n.broken,n.dist+1));
                 }
-                // 다음 칸이 벽
-                if(map[nr][nc] == 1 && cur.broken == 0 && !visited[nr][nc][1]) {
-                    visited[nr][nc][1] = true;
-                    q.add(new Node(nr, nc, 1, cur.dist + 1));
+                if(arr[nx][ny] == 1 && n.broken == 0 && !visited[nx][ny][1]){
+                    visited[nx][ny][1] = true;
+                    q.offer(new Node(nx,ny,1,n.dist+1));
                 }
             }
         }
         return -1;
     }
-
 }
