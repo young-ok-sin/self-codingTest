@@ -4,55 +4,53 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Solution {
-    static int max_height = 0, N, day;
-    static int[] gap, tree;
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine());
-
-        for(int test_case = 1; test_case <= T; test_case++)
-        {
-            max_height = 0;
-            day = 0;
-
-            N = Integer.parseInt(br.readLine());
-
-            tree = new int[N];
-            gap = new int[N];
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            for(int i = 0; i < N; i++){
-                tree[i] = Integer.parseInt(st.nextToken());
-                if(max_height < tree[i])    max_height = tree[i];
-            }
-            int one_cnt = 0;
-            int two_cnt = 0;
-            for (int i = 0; i < N; i++) {
-                gap[i] = max_height - tree[i];
-                
-                if(gap[i] == 0) continue;
-                
-                two_cnt += gap[i] / 2;
-                one_cnt += gap[i] % 2;
-            }
-
-            if(two_cnt > one_cnt){
-                while (Math.abs(two_cnt - one_cnt) > 1) {
-                    two_cnt--;
-                    one_cnt += 2;
-                }
-            }
-
-            if(one_cnt > two_cnt){
-                day = one_cnt * 2 - 1;
-            }
-            else if(two_cnt > one_cnt){
-                day = two_cnt * 2;
-            }
-            else {
-                day = two_cnt + one_cnt;
-            }
-            System.out.println("#" + test_case + " "+ day);
-        }
-    }
+	static int N, day, maxHeight;
+	static int[] tree, gap;
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		int T = Integer.parseInt(br.readLine());
+		for(int test_case = 1; test_case <= T; test_case++) {
+			
+			N = Integer.parseInt(br.readLine());
+			tree = new int[N];
+			gap = new int[N];
+			maxHeight = -1;
+			day = 0;
+			
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			for(int i = 0; i < N ;i++) {
+				tree[i] = Integer.parseInt(st.nextToken());
+				if(tree[i] > maxHeight)	maxHeight = tree[i];
+			}
+			
+			int one = 0;
+			int two = 0;
+			
+			for(int i = 0; i < N; i++) {
+				gap[i] = maxHeight - tree[i];
+				
+				if(gap[i] == 0)	continue;
+				
+				two += gap[i]/2;
+				one += gap[i]%2;
+			}
+			if(two > one) {
+				while(Math.abs(two - one) > 1) {
+					two--;
+					one += 2;
+				}
+			}
+			
+			if(one > two) {
+				day = one * 2 -1;
+			}else if(two > one) {
+				day = two * 2;
+			}else {
+				day = one + two;
+			}
+			System.out.println("#" + test_case + " "+ day);
+		}
+		
+	}
 }
