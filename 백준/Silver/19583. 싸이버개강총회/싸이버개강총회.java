@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -12,8 +12,8 @@ public class Main {
         int Q = Integer.parseInt(st.nextToken().replace(":", ""));
 
 
-        HashMap<String, Integer> start_map = new HashMap<>();
-        HashMap<String, Integer> end_map = new HashMap<>();
+        HashSet<String> enter = new HashSet<>();
+        HashSet<String> exit = new HashSet<>();
         int ret = 0;
 
         String line;
@@ -24,14 +24,14 @@ public class Main {
             int time = Integer.parseInt(st.nextToken().replace(":", ""));
             String name = st.nextToken();
             if(time <= S){
-                start_map.put(name, time);
+                enter.add(name);
             } else if (time >= E && time <= Q ) {
-                end_map.put(name, time);
+                exit.add(name);
             }
         }
 
-        for(String name : end_map.keySet()){
-            if(start_map.containsKey(name)){
+        for(String name : exit){
+            if(enter.contains(name)){
                 ret++;
             }
         }
