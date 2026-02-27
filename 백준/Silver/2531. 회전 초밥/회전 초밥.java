@@ -4,9 +4,9 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N, d, k, c;
+    static int N, d, k, c, kinds;
     static int arr[];
-    //N : 접시 수, d: 초밥의 종류 수, k : 접시 수, c: 쿠폰 번호
+    static int cnt[];
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -15,42 +15,31 @@ public class Main {
         k = Integer.parseInt(st.nextToken());
         c = Integer.parseInt(st.nextToken());
 
+        cnt = new int[d+1];
         arr = new int[N];
+
         for(int i = 0; i < N; i++){
             arr[i] = Integer.parseInt(br.readLine());
         }
 
-        int cnt[] = new int[d+1];
-        int distinct = 0;
-
         for(int i = 0; i < k; i++){
-            int sushi = arr[i % N];
-            if(cnt[sushi] == 0) distinct++;
-            cnt[sushi]++;
+            if(cnt[arr[i]] == 0)    kinds++;
+            cnt[arr[i]]++;
         }
+        int ans = kinds + (cnt[c] == 0 ? 1 : 0);
 
-        int max = cnt[c] == 0 ? distinct + 1 : distinct;
+        for(int start = 1; start < N; start++){
+            int remove = arr[start -1];
+            int add = arr[(start + k -1) % N];
 
-        for (int i = 1; i <= N; i++) {
-            // 나가는 인덱스: i-1
-            int outIdx = i - 1;
-            int outSushi = arr[outIdx % N];
-            cnt[outSushi]--;
-            if (cnt[outSushi] == 0) distinct--;
+            cnt[remove]--;
+            if(cnt[remove] == 0)    kinds--;
 
-            // 들어오는 인덱스: i + k - 1
-            int inIdx = i + k - 1;
-            int inSushi = arr[inIdx % N];
-            if (cnt[inSushi] == 0) distinct++;
-            cnt[inSushi]++;
+            if(cnt[add] == 0)   kinds++;
+            cnt[add]++;
 
-            int current = (cnt[c] == 0) ? distinct + 1 : distinct;
-            if (current > max) max = current;
-            // early stop: 만약 최댓값이 k (윈도우 크기)이면 더 이상 커질 수 없음
-            if (max == k + 1) break;
+            ans = Math.max(ans, kinds + (cnt[c] == 0 ? 1 : 0));
         }
-
-        System.out.println(max);
+      System.out.println(ans);
     }
-
 }
