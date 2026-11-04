@@ -12,7 +12,6 @@ public class Main {
         
         arr = new int[n+1];
         sum = new int[n+1];
-
         st = new StringTokenizer(br.readLine());
         for(int i = 1; i <= n; i++){
             arr[i] = Integer.parseInt(st.nextToken());
